@@ -1,0 +1,6 @@
+---
+title: "Intermediate Elective: Birds"
+author: "Kim Wong"
+format: pdf
+---
+
