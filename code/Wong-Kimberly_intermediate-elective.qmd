@@ -4,3 +4,16 @@ author: "Kim Wong"
 format: pdf
 ---
 
+# Problems 
+
+## 1. Explain your inspiration
+
+I chose the UFO Sightings visualization for inspiration. I want to work with the birds dataset, and I think I could show bird counts by season with a visualization like this. When I was looking through all the options, I was looking for something that could display 4 variables (for me: time, count, season, and eBird group), and this one does that clearly. For my visualization, time and bird count will be the axes, seasons will be the colors, and each plot will be for an eBird group.
+
+
+
+
+
+
+
+
