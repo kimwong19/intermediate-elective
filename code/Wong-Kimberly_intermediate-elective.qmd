@@ -20,11 +20,14 @@ library(tidyverse)
 library(here)
 
 # data visualization
-library(naniar)
-library(patchwork)
-library(scales)
-library(snakecase)
-library(knitr)
+library(lubridate)
+library(showtext)
+library(camcorder)
+library(ggtext)
+library(glue)
+library(tsibble)
+library(rcartocolor)
+library(paletteer)
 
 ```
 
@@ -47,6 +50,65 @@ I chose the UFO Sightings visualization for inspiration. I want to work with the
 knitr::include_graphics("figure-sketch.png", error = FALSE)
 ```
 
+## 3. Code your figure
+
+```{r}
+#| label: cleaning-data
+
+# cleaning birds data
+birds_clean <- birds |> 
+  filter(e_bird_group %in% c("Hummingbirds",
+                             "Vultures, Hawks, and Allies",
+                             "Gulls, Terns, and Skimmers",
+                             "Woodpeckers",
+                             "Shorebirds",
+                             "Tyrant Flycatchers: Pewees, Kingbirds, and Allies",
+                             "Waterfowl",
+                             "Jays, Magpies, Crows, and Ravens",
+                             "Thrushes"),
+         repeat_observation == "No") |> 
+  mutate(year = year(observation_date)) |> 
+  select(e_bird_group, year, season, count)
+
+# colors
+bg_col <- "#fafafa"
+col_pal <- rcartocolor::carto_pal(n = 5, "Sunset")
+dark_col <- "grey20"
+
+# load fonts
+font_add_google("Ubuntu", "Ubuntu")
+showtext_auto()
+```
+
+
+```{r}
+#| label: plot
+
+ggplot(
+  data = birds_clean,
+  mapping = aes(x = year, y = count, fill = season)
+) +
+  geom_area(position = "fill") +
+  geom_text(
+    mapping = aes(x = 2017, y = 0.5, label = e_bird_group),
+    colour = bg_col,
+    family = "Ubuntu",
+    size = 5
+  ) +
+  scale_x_continuous(breaks = c(2017, 2025)) +
+  facet_wrap(~e_bird_group, nrow = 3, ncol = 3) +
+  scale_fill_carto_d(palette = "Sunset") +
+  labs(
+    x = "",
+    y = ""
+  ) +
+  theme(
+    legend.position = "none",
+    plot.background = element_rect(
+      fill = bg_col,
+      colour = bg_col
+    ))
+```
 
 
 
