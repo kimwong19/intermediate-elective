@@ -130,6 +130,7 @@ ggplot(
   # fill by season
   mapping = aes(x = year, y = count, fill = season)
 ) +
+  # proportional stacked plots to visualize counts as percents
   geom_area(position = "fill") +
   geom_text(
     # position eBird group names around middle of plots
