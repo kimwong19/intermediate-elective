@@ -37,6 +37,7 @@ library(paletteer)
 The rendered document for my intermediate elective is [here](https://github.com/kimwong19/intermediate-elective/blob/main/code/Wong-Kimberly_intermediate-elective.pdf). 
 
 The final visualization is shown below: 
+
 ![My visualization](birds_plots.png)
 
 
