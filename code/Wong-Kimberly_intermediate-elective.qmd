@@ -72,7 +72,9 @@ birds_clean <- birds |>
   mutate(season = as.factor(season)) |> 
   mutate(season = fct_relevel(season, "Fall", "Winter", "Spring", "Summer"),
          season = fct_rev(season))
+```
 
+```{r}
 # colors
 bg_col <- "#fafafa"
 col_pal <- rcartocolor::carto_pal(n = 5, "Sunset")
@@ -81,16 +83,11 @@ dark_col <- "grey20"
 # load fonts
 font_add_google("Ubuntu", "Ubuntu")
 showtext_auto()
-```
 
-```{r}
 # text
 title <- "Bird abundance by season at NCOS"
 
-st <- glue::glue("For these nine eBird groups, the majority of counts appear to occur in 
-<span style='color:{col_pal[1]}'>summer</span>. Fewer occur in 
-<span style='color:{col_pal[4]}'>dusk</span>, in the <span style='color:{col_pal[3]}'>afternoon</span>, 
-<span style='color:{col_pal[2]}'>morning</span>, or at <span style='color:{col_pal[1]}'>dawn</span>.")
+st <- glue::glue("This figure shows the percent of total bird counts per season for nine eBird groups at North Campus Space. For some groups, the counts are pretty even across all seasons. For others, the count appears to be higher in <span style='color:{col_pal[1]}'>summer</span> and <span style='color:{col_pal[2]}'>spring</span>. Some have low counts in <span style='color:{col_pal[4]}'>winter</span>. <span style='color:{col_pal[5]}'>Fall</span> counts seem mostly proportional.")
 tg <- paste0(
   "<span style='font-size:38pt; font-weight: bold;'>**UFO Sightings**</span><br><br>", st,
   "<br><br>**Data**: North Campus Open Space<br><br>"
