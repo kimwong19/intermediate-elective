@@ -123,7 +123,7 @@ tg <- paste0(
 #| fig-width: 15
 
 # base layer is ggplot
-ggplot(
+birds_plots <- ggplot(
   data = birds_clean,
   # x-axis is year
   # y-axis is bird count
@@ -189,6 +189,12 @@ ggplot(
     # margins around entire plot
     plot.margin = margin(10, 15, 10, 200),
   )
+
+# displaying visualization
+birds_plots
+
+# saving visualization as png
+ggsave("birds_plots.png", plot = birds_plots, width = 15, height = 10)
 ```
 
 ## 4. Describe your process
