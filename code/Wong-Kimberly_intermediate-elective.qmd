@@ -194,7 +194,7 @@ birds_plots <- ggplot(
 birds_plots
 
 # saving visualization as png
-ggsave("birds_plots.png", plot = birds_plots, device = "png", width = 15, height = 10)
+ggsave("birds_plots.png", plot = birds_plots, device = "png", path = "/Users/kimberlywong/Desktop/git/intermediate-elective/code", width = 15, height = 10)
 ```
 
 ## 4. Describe your process
