@@ -190,6 +190,23 @@ ggplot(
   )
 ```
 
+## 4. Describe your process
+
+I thought that this process was a fun challenge because it gave me the freedom to choose what data to use and how to visualize it. It's cool that you can use someone else's code to create a similar visualization as them, and I liked that I still had to go through the code to figure out what each step means and how to modify it for my assignment.
+
+I had to use the Help pane to learn about a lot of the functions I had never seen before in order to use them properly for my visualization. It was a lot of going back and forth, but was very satisfying at the end. 
+
+Although we have previously visualized bird counts across seasons, we haven't looked at the percent of counts for each season and how that changes from 2017 to 2025. In addition to a longer time period, I also chose different eBird groups based on birds I've observed recently at NCOS. This visualization also uses labels and axes differently compared to more traditional axis labels and titles that we've used before.
+
+
+
+
+
+
+
+
+
+
 
 
 

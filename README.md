@@ -9,10 +9,14 @@ To work with the code in this repository, you will need the following packages:
 ```
 library(tidyverse)
 library(here)
-library(naniar)
-library(patchwork)
-library(scales)
-library(snakecase)
+library(lubridate)
+library(showtext)
+library(camcorder)
+library(ggtext)
+library(glue)
+library(tsibble)
+library(rcartocolor)
+library(paletteer)
 ```
 
 ## Data and file information
@@ -30,7 +34,7 @@ library(snakecase)
 
 ## Rendered output
 
-The rendered document for my intermediate elective is [here](https://github.com/kimwong19/intermediate-elective/blob/main/code/Wong-Kimberly_intermediate-elective.pdf)
+The rendered document for my intermediate elective is [here](https://github.com/kimwong19/intermediate-elective/blob/main/code/Wong-Kimberly_intermediate-elective.pdf).
 
 
 
