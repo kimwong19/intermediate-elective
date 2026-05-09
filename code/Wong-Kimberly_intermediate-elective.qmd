@@ -1,6 +1,7 @@
 ---
 title: "Intermediate Elective: Birds"
 author: "Kim Wong"
+date: "05-08-2026"
 format: pdf
 execute: 
   message: false
@@ -34,6 +35,8 @@ library(paletteer)
 ## Data
 
 ```{r}
+#| label: data
+
 birds <- read_csv(here("data", "birds-copy.csv"))
 ```
 
@@ -47,6 +50,8 @@ I chose the UFO Sightings visualization for inspiration. I want to work with the
 ## 2. Plan your figure 
 
 ```{r}
+#| label: figure-sketch
+
 knitr::include_graphics("figure-sketch.png", error = FALSE)
 ```
 
@@ -55,41 +60,57 @@ knitr::include_graphics("figure-sketch.png", error = FALSE)
 ```{r}
 #| label: cleaning-data
 
-# cleaning birds data
+# create a new object from birds
 birds_clean <- birds |> 
+  # filtering to only include 9 groups of choice 
+  # and removing repeat observations
   filter(e_bird_group %in% c("Hummingbirds",
                              "Vultures, Hawks, and Allies",
                              "Gulls, Terns, and Skimmers",
                              "Woodpeckers",
                              "Shorebirds",
-                             "Tyrant Flycatchers: Pewees, Kingbirds, and Allies",
+                             "Tyrant Flycatchers: Pewees, Kingbirds, and 
+                             Allies",
                              "Waterfowl",
                              "Jays, Magpies, Crows, and Ravens",
                              "Thrushes"),
          repeat_observation == "No") |> 
+  # changing date to only keep year
   mutate(year = year(observation_date)) |> 
+  # selecting columns of interest
   select(e_bird_group, year, season, count) |> 
+  # changing season column to a factor
   mutate(season = as.factor(season)) |> 
+  # reordering seasons, reversing order
   mutate(season = fct_relevel(season, "Fall", "Winter", "Spring", "Summer"),
          season = fct_rev(season))
 ```
 
 ```{r}
+#| label: plot-details
+
 # colors
 bg_col <- "#fafafa"
 col_pal <- rcartocolor::carto_pal(n = 5, "Sunset")
 dark_col <- "grey20"
 
-# load fonts
+# fonts
 font_add_google("Ubuntu", "Ubuntu")
 showtext_auto()
 
 # text
-title <- "Bird abundance by season at NCOS"
-
-st <- glue::glue("This figure shows the percent of total bird counts per season for nine eBird groups at North Campus Space. For some groups, the counts are pretty even across all seasons. For others, the count appears to be higher in <span style='color:{col_pal[1]}'>summer</span> and <span style='color:{col_pal[2]}'>spring</span>. Some have low counts in <span style='color:{col_pal[4]}'>winter</span>. <span style='color:{col_pal[5]}'>Fall</span> counts seem mostly proportional.")
+st <- glue::glue("This figure shows the percent of total bird counts per 
+                 season for nine eBird groups at North Campus Space. 
+                 For some groups, the counts are pretty even across all 
+                 seasons. For others, the count appears to be higher in 
+                 <span style='color:{col_pal[1]}'>summer</span> and 
+                 <span style='color:{col_pal[2]}'>spring</span>. Some have 
+                 low counts in <span style='color:{col_pal[4]}'>winter</span>. 
+                 <span style='color:{col_pal[5]}'>Fall</span> counts seem 
+                 mostly proportional.")
 tg <- paste0(
-  "<span style='font-size:38pt; font-weight: bold;'>**UFO Sightings**</span><br><br>", st,
+  "<span style='font-size:38pt; font-weight: bold;'>**Bird abundance by 
+  season at NCOS**</span><br><br>", st,
   "<br><br>**Data**: North Campus Open Space<br><br>"
 )
 ```
@@ -98,58 +119,73 @@ tg <- paste0(
 
 ```{r}
 #| label: plot
+#| fig-height: 10
+#| fig-width: 15
 
+# base layer is ggplot
 ggplot(
   data = birds_clean,
+  # x-axis is year
+  # y-axis is bird count
+  # fill by season
   mapping = aes(x = year, y = count, fill = season)
 ) +
   geom_area(position = "fill") +
   geom_text(
+    # position eBird group names around middle of plots
     mapping = aes(x = 2021, y = 0.5, label = e_bird_group),
+    # background color, font and size of text
     colour = bg_col,
     family = "Ubuntu",
     size = 3
   ) +
+  # x-axis 
   scale_x_continuous(breaks = c(2017, 2025)) +
+  # facet by eBird groups
   facet_wrap(~e_bird_group, nrow = 3, ncol = 3) +
+  # color seasons
   scale_fill_carto_d(palette = "Sunset") +
+  # blank axes labels and tag
   labs(
     x = "",
     y = "",
     tag = tg
   ) +
-  theme(
-    legend.position = "none",
-    plot.background = element_rect(
-      fill = bg_col,
-      colour = bg_col
-    )) +
+  # different theme from default
   theme_minimal(base_size = 12, base_family = "Ubuntu") +
   theme(
+    # remove legend
     legend.position = "none",
+    # background and borders of entire plot
     plot.background = element_rect(
       fill = bg_col,
       colour = bg_col
     ),
+    # background and borders of each panel 
     panel.background = element_rect(
       fill = bg_col,
       colour = bg_col
     ),
+    # tag 
     plot.tag = element_textbox_simple(
       lineheight = 0.5,
       colour = dark_col,
-      margin = margin(b = 40),
+      margin = margin(b = 60),
       maxwidth = 0.2,
       halign = 0,
       size = 18
     ),
+    # position of tag
     plot.tag.position = c(-0.1, 0.5),
+    # blank panel grid instead of lines
     panel.grid = element_blank(),
+    # remove y-axis
     axis.text.y = element_blank(),
-    axis.text.x = element_text(margin = margin(t = -10)),
-    strip.background = element_blank(),
+    # remove labels on top of plots
     strip.text = element_blank(),
+    # space between panels
     panel.spacing = unit(0, "lines"),
+    # margins around entire plot
     plot.margin = margin(10, 15, 10, 200),
   )
 ```
