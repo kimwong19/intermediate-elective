@@ -68,7 +68,10 @@ birds_clean <- birds |>
                              "Thrushes"),
          repeat_observation == "No") |> 
   mutate(year = year(observation_date)) |> 
-  select(e_bird_group, year, season, count)
+  select(e_bird_group, year, season, count) |> 
+  mutate(season = as.factor(season)) |> 
+  mutate(season = fct_relevel(season, "Fall", "Winter", "Spring", "Summer"),
+         season = fct_rev(season))
 
 # colors
 bg_col <- "#fafafa"
@@ -80,6 +83,21 @@ font_add_google("Ubuntu", "Ubuntu")
 showtext_auto()
 ```
 
+```{r}
+# text
+title <- "Bird abundance by season at NCOS"
+
+st <- glue::glue("For these nine eBird groups, the majority of counts appear to occur in 
+<span style='color:{col_pal[1]}'>summer</span>. Fewer occur in 
+<span style='color:{col_pal[4]}'>dusk</span>, in the <span style='color:{col_pal[3]}'>afternoon</span>, 
+<span style='color:{col_pal[2]}'>morning</span>, or at <span style='color:{col_pal[1]}'>dawn</span>.")
+tg <- paste0(
+  "<span style='font-size:38pt; font-weight: bold;'>**UFO Sightings**</span><br><br>", st,
+  "<br><br>**Data**: North Campus Open Space<br><br>"
+)
+```
+
+
 
 ```{r}
 #| label: plot
@@ -90,24 +108,53 @@ ggplot(
 ) +
   geom_area(position = "fill") +
   geom_text(
-    mapping = aes(x = 2017, y = 0.5, label = e_bird_group),
+    mapping = aes(x = 2021, y = 0.5, label = e_bird_group),
     colour = bg_col,
     family = "Ubuntu",
-    size = 5
+    size = 3
   ) +
   scale_x_continuous(breaks = c(2017, 2025)) +
   facet_wrap(~e_bird_group, nrow = 3, ncol = 3) +
   scale_fill_carto_d(palette = "Sunset") +
   labs(
     x = "",
-    y = ""
+    y = "",
+    tag = tg
   ) +
   theme(
     legend.position = "none",
     plot.background = element_rect(
       fill = bg_col,
       colour = bg_col
-    ))
+    )) +
+  theme_minimal(base_size = 12, base_family = "Ubuntu") +
+  theme(
+    legend.position = "none",
+    plot.background = element_rect(
+      fill = bg_col,
+      colour = bg_col
+    ),
+    panel.background = element_rect(
+      fill = bg_col,
+      colour = bg_col
+    ),
+    plot.tag = element_textbox_simple(
+      lineheight = 0.5,
+      colour = dark_col,
+      margin = margin(b = 40),
+      maxwidth = 0.2,
+      halign = 0,
+      size = 18
+    ),
+    plot.tag.position = c(-0.1, 0.5),
+    panel.grid = element_blank(),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(margin = margin(t = -10)),
+    strip.background = element_blank(),
+    strip.text = element_blank(),
+    panel.spacing = unit(0, "lines"),
+    plot.margin = margin(10, 15, 10, 200),
+  )
 ```
 
 
