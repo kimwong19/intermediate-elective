@@ -38,7 +38,7 @@ The rendered document for my intermediate elective is [here](https://github.com/
 
 The final visualization is shown below: 
 
-![My visualization](birds_plots.png)
+![My visualization](/Users/kimberlywong/Desktop/git/intermediate-elective/code/birds_plots.png)
 
 
 
